@@ -10,13 +10,23 @@ public class Licor implements Serializable{
 	private String tipo;
 	private int stock;
 	private String proveedor;
+	private double precio;
 	
-	public Licor(int id, String nombre, String tipo, int stock, String proveedor) {
+	public Licor(int id, String nombre, String tipo, int stock, String proveedor, int precio) {
 		this.id = id;
 		this.nombre = nombre;
 		this.tipo = tipo;
 		this.stock = stock;
 		this.proveedor = proveedor;
+		this.precio = precio;
+	}
+	
+	public double getPrecio() {
+		return this.precio;
+	}
+	
+	public void setPrecio(double precio) {
+		this.precio = precio;
 	}
 	
 	public int getId() {

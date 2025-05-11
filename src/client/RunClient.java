@@ -21,14 +21,15 @@ public class RunClient {
 		
 		System.out.println("Cliente Arriba!");
 		
-		System.out.println("=========================================");
-		System.out.println("      BIENVENIDO AL NEGOCIO XXXXXXXX      ");
-		System.out.println("=========================================");
+		System.out.println("=============================================");
+		System.out.println("      SISTEMA DE GESTION INVENTARIO Y VENTA      ");
+		System.out.println("=============================================");
 		
 		
 		while(true) {
 			System.out.println(" ---------------------------------------");
 			System.out.println(" -> Indique la opcion a operar");
+			System.out.println("0. Proceder con Venta.");
 			System.out.println("1. Mostrar licores de la BD.");
 			System.out.println("2. Crear nuevo Licor.");
 			System.out.println("3. Obtener informacion de la API.");
@@ -37,14 +38,18 @@ public class RunClient {
 			String entrada = br.readLine();
 			int opcion = Integer.parseInt(entrada);
 			
-			while(opcion > 3 || opcion < 1) {
+			while(opcion > 3 || opcion < 0) {
 				System.out.println("Entrada inválida, ingrese una opción válida");
 				entrada = br.readLine();
 			}
 			
 			switch(opcion) {
+				case 0:
+					
+					client.venta();
+					break;
 				case 1:
-					client.mostrarPersonas();
+					client.mostrarLicores();
 					
 					break;
 				case 2:
@@ -62,7 +67,10 @@ public class RunClient {
 					System.out.println("Ingrese el proveedor del licor a registrar:");
 					String proveedor = br.readLine();
 					
-					client.crearRegistro(nombre, tipo, Integer.parseInt(stock), proveedor);
+					System.out.println("Ingrese el precio del licor a registrar:");
+					String precio = br.readLine();
+					
+					client.crearRegistro(nombre, tipo, Integer.parseInt(stock), proveedor, Double.parseDouble(precio));
 					
 					
 					break;
