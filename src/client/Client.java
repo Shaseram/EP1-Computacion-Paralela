@@ -62,48 +62,55 @@ public class Client {
 					System.out.println("Ingrese el nombre del licor a buscar");
 					String nombre = br.readLine();
 					ArrayList<Licor> posiblesResultados = server.buscarLicor(nombre);
-					
-					for(Licor licor: posiblesResultados) {
-						System.out.println("Id: " + licor.getId() + " Nombre: " + licor.getNombre() + " Stock: "+ licor.getStock() + " Precio: " + licor.getPrecio());
-						
-						System.out.println("");
-						
-					}
-					
-					
-					System.out.println("Elige el licor de la busqueda por su ID");
-					String option = br.readLine();
-					
-					
-					
-					for(Licor licor: posiblesResultados) {
-						if(licor.getId() == Integer.parseInt(option) && licor.getStock() > 0) {
+					if(posiblesResultados.size() > 0) {
+						for(Licor licor: posiblesResultados) {
+							System.out.println("Id: " + licor.getId() + " Nombre: " + licor.getNombre() + " Stock: "+ licor.getStock() + " Precio: " + licor.getPrecio());
 							
-							Object[] valores_api = server.verificarPromocion(Integer.parseInt(option));
+							System.out.println("");
 							
-							if(valores_api != null) {
-								int descuento = (int) valores_api[1];
-								double precioOriginal = licor.getPrecio();
-								double valorFinal = precioOriginal - (precioOriginal * (descuento / 100.0));
-								
-								System.out.println("Licor con descuento!");
-								System.out.println(" ");
-								System.out.println("Descuento: " + descuento);
-								System.out.println("Valor antes: " + precioOriginal);
-								System.out.println("Valor final: " + valorFinal);
-								System.out.println(" ");
-								
-								valorTotal += valorFinal;
-								licor.setPrecio(valorFinal);
-								
-							} else {
-								valorTotal += licor.getPrecio();
-							}
-							
-							
-							listaVenta.add(licor);
 						}
+						
+						
+						System.out.println("Elige el licor de la busqueda por su ID");
+						String option = br.readLine();
+						
+						for(Licor licor: posiblesResultados) {
+							if(licor.getId() == Integer.parseInt(option) && licor.getStock() > 0) {
+								if(licor.getStock()>0) {
+									
+									Object[] valores_api = server.verificarPromocion(Integer.parseInt(option));
+									
+									if(valores_api != null) {
+										int descuento = (int) valores_api[1];
+										double precioOriginal = licor.getPrecio();
+										double valorFinal = precioOriginal - (precioOriginal * (descuento / 100.0));
+										
+										System.out.println("Licor con descuento!");
+										System.out.println(" ");
+										System.out.println("Descuento: " + descuento);
+										System.out.println("Valor antes: " + precioOriginal);
+										System.out.println("Valor final: " + valorFinal);
+										System.out.println(" ");
+										
+										valorTotal += valorFinal;
+										licor.setPrecio(valorFinal);
+										
+									} else {
+										valorTotal += licor.getPrecio();
+									}
+								}
+								else {
+									System.out.println("No hay stock de ese producto.");
+								}
+								listaVenta.add(licor);
+							}
+						}
+						
+					} else {
+						System.out.println("No existen licores que coincidan con la busqueda");
 					}
+					
+					
 							
 					break;
 				
@@ -155,10 +162,6 @@ public class Client {
 		}
 	}
 	
-	public String getDataFromApi() throws RemoteException {
-		return server.getDataFromApi();
-	}
-	
 	public void crearRegistro(String nombre, String tipo, int stock, String proveedor, double precio) throws RemoteException {
 		server.CrearLicor(nombre, tipo, stock, proveedor, precio);
 		
@@ -166,5 +169,3 @@ public class Client {
 		
 	}
 }
-	
-			

@@ -27,8 +27,6 @@ import java.sql.Statement;
 
 
 public class ServerImpl implements InterfazDeServer {
-	
-	
 	private String url = "jdbc:mysql://localhost:3308/botilleriadb";
 	private String username = "root";
 	private String password_BD = "";
@@ -221,47 +219,9 @@ public class ServerImpl implements InterfazDeServer {
 		return BD_licores_copia;
 	}
 	
-	public String getDataFromApi() {
-		String output = null;
-		
-		try {
-			URL apiUrl = new URI("https://api-ofertas-deploy.onrender.com/licores").toURL();
-			
-			HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
-			
-			connection.setRequestMethod("GET");
-			
-			int responseCode = connection.getResponseCode();
-			
-			if(responseCode == HttpURLConnection.HTTP_OK) {
-				BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				String inputLine;
-				StringBuilder response = new StringBuilder();
-				
-				
-				while((inputLine = br.readLine()) != null) {
-					response.append(inputLine);
-				}
-				
-				br.close();
-				output = response.toString();
-			} else {
-				System.out.println("Error al conectar con la API. Codigo de respuesta: " + responseCode);
-			}
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-			
-		}
-		
-		return null;
-		
-	}
-	
 	public ArrayList<Licor> getLicor() {
 		return mostrarLicores();
 	}
-	
 	
 	public void CrearLicor(String nombre, String tipo, int stock, String proveedor, double precio) {
 	    try (Connection connection = DriverManager.getConnection(url, username, password_BD)) {

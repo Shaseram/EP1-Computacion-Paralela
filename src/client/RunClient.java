@@ -15,7 +15,6 @@ public class RunClient {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		
-		
 		Client client = new Client();
 		client.startClient();
 		
@@ -32,8 +31,7 @@ public class RunClient {
 			System.out.println("0. Proceder con Venta.");
 			System.out.println("1. Mostrar licores de la BD.");
 			System.out.println("2. Crear nuevo Licor.");
-			System.out.println("3. Obtener informacion de la API.");
-			System.out.println("4. Terminar conexión y cerrar programa.");
+			System.out.println("3. Terminar conexión y cerrar programa.");
 			System.out.println("Ingrese su opción");
 			String entrada = br.readLine();
 			int opcion = Integer.parseInt(entrada);
@@ -41,11 +39,11 @@ public class RunClient {
 			while(opcion > 3 || opcion < 0) {
 				System.out.println("Entrada inválida, ingrese una opción válida");
 				entrada = br.readLine();
+				opcion = Integer.parseInt(entrada);
 			}
 			
 			switch(opcion) {
 				case 0:
-					
 					client.venta();
 					break;
 				case 1:
@@ -56,7 +54,6 @@ public class RunClient {
 					
 					System.out.println("Ingrese el nombre del licor a registrar:");
 					String nombre = br.readLine();
-					
 					
 					System.out.println("Ingrese el tipo del licor a registrar:");
 					String tipo = br.readLine();
@@ -71,17 +68,9 @@ public class RunClient {
 					String precio = br.readLine();
 					
 					client.crearRegistro(nombre, tipo, Integer.parseInt(stock), proveedor, Double.parseDouble(precio));
-					
-					
 					break;
 				
 				case 3:
-					System.out.println(client.getDataFromApi());
-					
-					break;
-				
-					
-				case 4:
 					System.out.println("Saliendo del programa...");
 					System.exit(0);
 					break;
@@ -89,11 +78,6 @@ public class RunClient {
 			}
 			
 		}
-		
-		
-		
-		
-		
 		
 	}
 	

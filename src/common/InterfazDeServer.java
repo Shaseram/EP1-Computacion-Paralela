@@ -10,5 +10,4 @@ public interface InterfazDeServer extends Remote{
 	public Object[] verificarPromocion(int id) throws RemoteException;
 	public ArrayList<Licor> buscarLicor(String nombre) throws RemoteException;
 	public void CrearLicor(String nombre, String tipo, int stock, String proveedor, double precio) throws RemoteException;
-	String getDataFromApi() throws RemoteException;
 }
