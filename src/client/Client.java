@@ -121,6 +121,7 @@ public class Client {
 					
 					for(Licor licor: listaVenta) {
 						if(licor.getId() == Integer.parseInt(op)) {
+							valorTotal -= licor.getPrecio();
 							listaVenta.remove(licor);
 							System.out.println("Licor eliminado con éxito!");
 							System.out.println(" ");
