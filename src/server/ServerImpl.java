@@ -249,4 +249,92 @@ public class ServerImpl implements InterfazDeServer {
 	        System.out.println("No se pudo insertar el licor en la base de datos.");
 	    }
 	}
+	
+	public void actualizarLicor(String id, String opcion, String nuevoValor) {
+		
+		String sql = null;
+		PreparedStatement preparedStatement = null;
+		
+		try (Connection connection = DriverManager.getConnection(url, username, password_BD)) {
+
+	        System.out.println("Actualizando licor en BD...");
+	        
+	        switch(Integer.parseInt(opcion)) {
+	        	
+	        	case 1:	
+	        		sql = "UPDATE Licores SET nombre = ? WHERE id = ?";
+	        		preparedStatement = connection.prepareStatement(sql);
+	        		
+	        		preparedStatement.setString(1, nuevoValor);
+		            preparedStatement.setInt(2, Integer.parseInt(id));
+		            
+
+		            preparedStatement.executeUpdate();
+	        		
+	        		break;
+	        	
+	        	case 2:
+	        		sql = "UPDATE Licores SET stock = ? WHERE id = ?";
+	        		preparedStatement = connection.prepareStatement(sql);
+	        		
+	        		
+	        		preparedStatement.setInt(1, Integer.parseInt(nuevoValor));
+		            preparedStatement.setInt(2, Integer.parseInt(id));
+		            
+
+		            preparedStatement.executeUpdate();
+	        		
+	        		break;
+	        	
+	        	case 3:
+	        		sql = "UPDATE Licores SET precio = ? WHERE id = ?";
+	        		preparedStatement = connection.prepareStatement(sql);
+	        		
+	        		preparedStatement.setDouble(1, Double.parseDouble(nuevoValor));
+		            preparedStatement.setInt(2, Integer.parseInt(id));
+		            
+
+		            preparedStatement.executeUpdate();
+	        		
+	        		break;
+	        }
+	        
+		    
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        System.out.println("No se pudo actualizar el licor en la base de datos.");
+	    }
+	}
+	
+	public void eliminarLicor(String id) throws RemoteException {
+		try (Connection connection = DriverManager.getConnection(url, username, password_BD)) {
+
+	        System.out.println("Eliminando Licor en la BD...");
+
+	        String sql = "DELETE FROM Licores WHERE id = ?";
+
+	        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+	            preparedStatement.setInt(1, Integer.parseInt(id));
+	            
+
+	            preparedStatement.executeUpdate();
+
+	            System.out.println("Licor eliminado correctamente.");
+
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        System.out.println("No se pudo eliminar el licor en la base de datos.");
+	    }
+		
+	}
+
+	
+	@Override
+	public int heartbeat() throws RemoteException {
+		return 0;
+	}
 }

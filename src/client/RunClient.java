@@ -16,7 +16,7 @@ public class RunClient {
 
 		
 		Client client = new Client();
-		client.startClient();
+		
 		
 		System.out.println("Cliente Arriba!");
 		
@@ -31,12 +31,14 @@ public class RunClient {
 			System.out.println("0. Proceder con Venta.");
 			System.out.println("1. Mostrar licores de la BD.");
 			System.out.println("2. Crear nuevo Licor.");
-			System.out.println("3. Terminar conexión y cerrar programa.");
+			System.out.println("3. Actualizar Licor.");
+			System.out.println("4. Eliminar Licor");
+			System.out.println("5. Terminar conexión y cerrar programa.");
 			System.out.println("Ingrese su opción");
 			String entrada = br.readLine();
 			int opcion = Integer.parseInt(entrada);
 			
-			while(opcion > 3 || opcion < 0) {
+			while(opcion > 5 || opcion < 0) {
 				System.out.println("Entrada inválida, ingrese una opción válida");
 				entrada = br.readLine();
 				opcion = Integer.parseInt(entrada);
@@ -71,6 +73,14 @@ public class RunClient {
 					break;
 				
 				case 3:
+					client.actualizarRegistro();
+					
+					break;
+				case 4:
+					client.eliminarRegistro();
+					
+					break;
+				case 5:
 					System.out.println("Saliendo del programa...");
 					System.exit(0);
 					break;
