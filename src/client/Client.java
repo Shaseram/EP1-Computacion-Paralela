@@ -36,11 +36,6 @@ public class Client {
                     if (connectedToPrimary) {
                         stub.heartbeat();
                     }
-                    
-                    else {
-                        
-                        stub.heartbeat();
-                    }
                 } catch (RemoteException e) {
                     if (connectedToPrimary) {
                         System.err.println("Heartbeat fallido, cambiando al servidor de respaldo...");
@@ -72,7 +67,7 @@ public class Client {
     }
 
     private void cambiarSvRespaldo() {
-        stub = establecerConexion(host, backupPort, "server-respaldo");
+        stub = establecerConexion(host, backupPort, "server");
         if (stub == null) {
             System.err.println("No se pudo conectar al servidor de respaldo.");
             terminarEjecucion();
@@ -96,16 +91,6 @@ public class Client {
         running = false;
         System.err.println("Terminando ejecución debido a la falta de respuesta del servidor de respaldo.");
         System.exit(1);
-    }
-
-    private void comprobarConexion() {
-        if (connectedToPrimary) {
-            System.err.println("Perdida la conexión con el servidor principal, reconectando al servidor de respaldo...");
-            cambiarSvRespaldo();
-        } else {   
-             System.err.println("Perdida la conexión con el servidor de respaldo.");
-             terminarEjecucion();
-        }
     }
 
 
@@ -143,7 +128,7 @@ public class Client {
                         try {
                             posiblesResultados = stub.buscarLicor(nombre);
                         } catch (RemoteException e) {
-                            comprobarConexion();
+                            cambiarSvRespaldo();
                             posiblesResultados = stub != null ? stub.buscarLicor(nombre) : new ArrayList<>();
                         }
                         
@@ -165,7 +150,7 @@ public class Client {
                                         try {
                                             valores_api = stub.verificarPromocion(Integer.parseInt(option));
                                         } catch (RemoteException e) {
-                                            comprobarConexion();
+                                            cambiarSvRespaldo();
                                             valores_api = stub != null ? stub.verificarPromocion(Integer.parseInt(option)) : null;
                                         }
                                         
@@ -230,7 +215,7 @@ public class Client {
                     try {
                         stub.actualizarBD(idVentas);
                     } catch (RemoteException e) {
-                        comprobarConexion();
+                        cambiarSvRespaldo();
                         if (stub != null) stub.actualizarBD(idVentas);
                     }
                    
@@ -248,7 +233,7 @@ public class Client {
         try {
             licores = stub.getLicor();
         } catch (RemoteException e) {
-            comprobarConexion();
+            cambiarSvRespaldo();
             licores = stub != null ? stub.getLicor() : new ArrayList<>();
         }
 
@@ -269,7 +254,7 @@ public class Client {
         try {
             stub.CrearLicor(nombre, tipo, stock, proveedor, precio);
         } catch (RemoteException e) {
-            comprobarConexion();
+            cambiarSvRespaldo();
             if (stub != null) {
                 stub.CrearLicor(nombre, tipo, stock, proveedor, precio);
             } else {

@@ -11,9 +11,9 @@ public class RunServerRespaldo {
 	
 	public static void main(String[] args) throws RemoteException, AlreadyBoundException {
 		
-		InterfazDeServer server = new ServerImpl();
+		InterfazDeServer server = new ServerImplRespaldo();
 		Registry registry = LocateRegistry.createRegistry(7778);
-		registry.bind("server-respaldo", server);
+		registry.bind("server", server);
 		
 		System.out.println("Servidor de Respaldo Arriba!!");
 		

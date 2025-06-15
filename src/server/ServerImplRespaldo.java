@@ -27,27 +27,27 @@ import java.util.concurrent.locks.ReentrantLock; // Importar ReentrantLock
 import java.util.concurrent.TimeUnit; // Importar TimeUnit
 
 
-public class ServerImpl implements InterfazDeServer {
+public class ServerImplRespaldo implements InterfazDeServer {
     private String url = "jdbc:mysql://localhost:3308/botilleriadb";
     private String username = "root";
     private String password_BD = "";
 
     private final ReentrantLock databaseLock = new ReentrantLock(); // Instancia del bloqueo
 
-    public ServerImpl() throws RemoteException {
+    public ServerImplRespaldo() throws RemoteException {
         UnicastRemoteObject.exportObject(this, 0);
 
     }
 
     public void actualizarBD(ArrayList<Integer> ides) {
-        System.out.println("Intentando adquirir bloqueo para actualizar stock...");
+        System.out.println("Intentando adquirir bloqueo para actualizar stock (respaldo)...");
         try {
             if (databaseLock.tryLock(10, TimeUnit.SECONDS)) {
                 try {
-                    System.out.println("Adquirido bloqueo para actualizar stock.");
+                    System.out.println("Adquirido bloqueo para actualizar stock (respaldo).");
                     try (Connection connection = DriverManager.getConnection(url, username, password_BD)) {
 
-                        System.out.println("Actualizando stock en la base de datos...");
+                        System.out.println("Actualizando stock en la base de datos (respaldo)...");
 
                         String sql = "UPDATE licores SET stock = stock - 1 WHERE id = ?";
 
@@ -64,20 +64,20 @@ public class ServerImpl implements InterfazDeServer {
 
                     } catch (SQLException e) {
                         e.printStackTrace();
-                        System.out.println("No se pudo hacer la conexión a la base de datos o actualizar el stock.");
+                        System.out.println("No se pudo hacer la conexión a la base de datos o actualizar el stock (respaldo).");
                     } finally {
-                        System.out.println("Liberando bloqueo después de actualizar stock...");
+                        System.out.println("Liberando bloqueo después de actualizar stock (respaldo)...");
                         databaseLock.unlock(); // Liberar el bloqueo
                     }
                 } finally {
                  
                 }
             } else {
-                System.out.println("Tiempo de espera excedido al intentar adquirir el bloqueo para actualizar stock.");
+                System.out.println("Tiempo de espera excedido al intentar adquirir el bloqueo para actualizar stock (respaldo).");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
-            System.out.println("Interrupción al intentar adquirir el bloqueo para actualizar stock: " + e.getMessage());
+            System.out.println("Interrupción al intentar adquirir el bloqueo para actualizar stock (respaldo): " + e.getMessage());
         }
     }
 
@@ -153,11 +153,11 @@ public class ServerImpl implements InterfazDeServer {
 
     public ArrayList<Licor> buscarLicor(String nombre) {
         ArrayList<Licor> resultadoBD = new ArrayList<>();
-        System.out.println("Intentando adquirir bloqueo para buscar licor...");
+        System.out.println("Intentando adquirir bloqueo para buscar licor (respaldo)...");
         try {
             if (databaseLock.tryLock(10, TimeUnit.SECONDS)) {
                 try {
-                    System.out.println("Adquiriendo bloqueo para buscar licor...");
+                    System.out.println("Adquiriendo bloqueo para buscar licor (respaldo)...");
 
 
                     System.out.println("Analizando resultados...");
@@ -198,17 +198,17 @@ public class ServerImpl implements InterfazDeServer {
 
 
                 } finally {
-                    System.out.println("Liberando bloqueo después de buscar licor...");
+                    System.out.println("Liberando bloqueo después de buscar licor (respaldo)...");
                     databaseLock.unlock(); // Liberar el bloqueo
                 }
 
             } else {
-                System.out.println("Tiempo de espera excedido al intentar adquirir el bloqueo para buscar licor.");
+                System.out.println("Tiempo de espera excedido al intentar adquirir el bloqueo para buscar licor (respaldo).");
                 return new ArrayList<>(); // Return an empty list
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
-            System.out.println("Interrupción al intentar adquirir el bloqueo para buscar licor: " + e.getMessage());
+            System.out.println("Interrupción al intentar adquirir el bloqueo para buscar licor (respaldo): " + e.getMessage());
             return new ArrayList<>(); // Return an empty list
         }
         return resultadoBD;
@@ -216,11 +216,11 @@ public class ServerImpl implements InterfazDeServer {
     }
 
     private ArrayList<Licor> mostrarLicores() {
-        System.out.println("Intentando adquirir bloqueo para mostrar licores...");
+        System.out.println("Intentando adquirir bloqueo para mostrar licores (respaldo)...");
         try {
             if (databaseLock.tryLock(10, TimeUnit.SECONDS)) {
                 try {
-                    System.out.println("Adquiriendo bloqueo para mostrar licores...");
+                    System.out.println("Adquiriendo bloqueo para mostrar licores (respaldo)...");
                     ArrayList<Licor> BD_licores_copia = new ArrayList<>();
 
                     Connection connection = null;

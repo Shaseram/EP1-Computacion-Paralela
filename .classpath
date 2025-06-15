@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21">
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-24">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/rev/Desktop/Computa/T1-Profe/Computacion_Paralela_y_Distribuida_Tarea1/resources/mysql-connector-j-8.3.0.jar">
+	<classpathentry exported="true" kind="lib" path="C:/Users/Nijika/Documents/GitHub/Proyecto-ICI4344-1/Recursos/mysql-connector-j-8.3.0.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/rev/Desktop/Computa/T1-Profe/Computacion_Paralela_y_Distribuida_Tarea1/resources/jackson-annotations-2.14.0.jar">
+	<classpathentry exported="true" kind="lib" path="C:/Users/Nijika/Documents/GitHub/Proyecto-ICI4344-1/Recursos/jackson-annotations-2.14.0.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/rev/Desktop/Computa/T1-Profe/Computacion_Paralela_y_Distribuida_Tarea1/resources/jackson-core-2.14.0.jar">
+	<classpathentry exported="true" kind="lib" path="C:/Users/Nijika/Documents/GitHub/Proyecto-ICI4344-1/Recursos/jackson-core-2.14.0.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/rev/Desktop/Computa/T1-Profe/Computacion_Paralela_y_Distribuida_Tarea1/resources/jackson-databind-2.14.0.jar">
+	<classpathentry exported="true" kind="lib" path="C:/Users/Nijika/Documents/GitHub/Proyecto-ICI4344-1/Recursos/jackson-databind-2.14.0.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
