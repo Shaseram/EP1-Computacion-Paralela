@@ -67,7 +67,7 @@ public class Client {
     }
 
     private void cambiarSvRespaldo() {
-        stub = establecerConexion(host, backupPort, "server");
+        stub = establecerConexion(host, backupPort, "server-respaldo");
         if (stub == null) {
             System.err.println("No se pudo conectar al servidor de respaldo.");
             terminarEjecucion();

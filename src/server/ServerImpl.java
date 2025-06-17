@@ -59,6 +59,13 @@ public class ServerImpl implements InterfazDeServer {
                             }
 
                             System.out.println("Stock actualizado correctamente para los IDs: " + ides);
+                            
+                            try {
+                                
+                                Thread.sleep(10000); 
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
 
                         }
 
@@ -83,8 +90,7 @@ public class ServerImpl implements InterfazDeServer {
 
 
     public Object[] verificarPromocion(int id) {
-        // Este método consulta una API externa, no la base de datos local,
-        // por lo que no necesita exclusión mutua con las operaciones de BD.
+        
         String output = null;
 
         try {
@@ -135,9 +141,6 @@ public class ServerImpl implements InterfazDeServer {
             }
 
 
-
-
-
         } catch (JsonMappingException e) {
             e.printStackTrace();
         } catch (JsonProcessingException e) {
@@ -185,16 +188,22 @@ public class ServerImpl implements InterfazDeServer {
 
                                 resultadoBD.add(newLicor);
                             }
+                            
+                            try {
+                                
+                                Thread.sleep(10000); 
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
 
                         }
 
                     } catch (SQLException e) {
                         e.printStackTrace();
                         System.out.println("No se pudo hacer la conexion a la base de datos");
-
-                    } finally {
-                      
                     }
+                    
+                    
 
 
                 } finally {
@@ -225,7 +234,6 @@ public class ServerImpl implements InterfazDeServer {
 
                     Connection connection = null;
                     Statement query = null;
-                    // PreparedStatement test = null , Esto es para evitar SQL injection
                     ResultSet resultados = null;
 
                     try {
@@ -268,12 +276,22 @@ public class ServerImpl implements InterfazDeServer {
                             e.printStackTrace();
                         }
                     }
-
+                    
+                    try {
+      
+                        Thread.sleep(10000); 
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+  
 
                     return BD_licores_copia;
                 } finally {
+                	
+                	
                     System.out.println("Liberando bloqueo después de mostrar licores...");
-                    databaseLock.unlock(); // Liberar el bloqueo
+                    
+                    databaseLock.unlock();
                 }
             } else {
                 System.out.println("Tiempo de espera excedido al intentar adquirir el bloqueo para mostrar licores.");
@@ -288,7 +306,7 @@ public class ServerImpl implements InterfazDeServer {
     }
 
     public ArrayList<Licor> getLicor() {
-        return mostrarLicores(); // showLicores ya tiene el bloqueo
+        return mostrarLicores(); 
     }
 
     public void CrearLicor(String nombre, String tipo, int stock, String proveedor, double precio) {
@@ -319,9 +337,17 @@ public class ServerImpl implements InterfazDeServer {
                         e.printStackTrace();
                         System.out.println("No se pudo insertar el licor en la base de datos.");
                     }
+                    
+                    try {
+                        
+                        Thread.sleep(10000); 
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
 
                 } finally {
+                	
                     System.out.println("Liberando bloqueo después de crear licor...");
                     databaseLock.unlock(); // Liberar el bloqueo
                 }
@@ -386,6 +412,13 @@ public class ServerImpl implements InterfazDeServer {
 
                                 break;
                         }
+                        
+                        try {
+                            
+                            Thread.sleep(10000); 
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
 
 
                     } catch (SQLException e) {
@@ -427,6 +460,13 @@ public class ServerImpl implements InterfazDeServer {
                         preparedStatement.executeUpdate();
 
                         System.out.println("Licor eliminado correctamente.");
+                        
+                        try {
+                            
+                            Thread.sleep(10000); 
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
 
                     } catch (SQLException e) {
                         e.printStackTrace();

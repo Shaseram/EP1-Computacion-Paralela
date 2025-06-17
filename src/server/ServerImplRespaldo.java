@@ -40,14 +40,14 @@ public class ServerImplRespaldo implements InterfazDeServer {
     }
 
     public void actualizarBD(ArrayList<Integer> ides) {
-        System.out.println("Intentando adquirir bloqueo para actualizar stock (respaldo)...");
+        System.out.println("Intentando adquirir bloqueo para actualizar stock...");
         try {
             if (databaseLock.tryLock(10, TimeUnit.SECONDS)) {
                 try {
-                    System.out.println("Adquirido bloqueo para actualizar stock (respaldo).");
+                    System.out.println("Adquirido bloqueo para actualizar stock.");
                     try (Connection connection = DriverManager.getConnection(url, username, password_BD)) {
 
-                        System.out.println("Actualizando stock en la base de datos (respaldo)...");
+                        System.out.println("Actualizando stock en la base de datos...");
 
                         String sql = "UPDATE licores SET stock = stock - 1 WHERE id = ?";
 
@@ -59,32 +59,38 @@ public class ServerImplRespaldo implements InterfazDeServer {
                             }
 
                             System.out.println("Stock actualizado correctamente para los IDs: " + ides);
+                            
+                            try {
+                                
+                                Thread.sleep(10000); 
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
 
                         }
 
                     } catch (SQLException e) {
                         e.printStackTrace();
-                        System.out.println("No se pudo hacer la conexión a la base de datos o actualizar el stock (respaldo).");
+                        System.out.println("No se pudo hacer la conexión a la base de datos o actualizar el stock.");
                     } finally {
-                        System.out.println("Liberando bloqueo después de actualizar stock (respaldo)...");
+                        System.out.println("Liberando bloqueo después de actualizar stock...");
                         databaseLock.unlock(); // Liberar el bloqueo
                     }
                 } finally {
                  
                 }
             } else {
-                System.out.println("Tiempo de espera excedido al intentar adquirir el bloqueo para actualizar stock (respaldo).");
+                System.out.println("Tiempo de espera excedido al intentar adquirir el bloqueo para actualizar stock.");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
-            System.out.println("Interrupción al intentar adquirir el bloqueo para actualizar stock (respaldo): " + e.getMessage());
+            System.out.println("Interrupción al intentar adquirir el bloqueo para actualizar stock: " + e.getMessage());
         }
     }
 
 
     public Object[] verificarPromocion(int id) {
-        // Este método consulta una API externa, no la base de datos local,
-        // por lo que no necesita exclusión mutua con las operaciones de BD.
+        
         String output = null;
 
         try {
@@ -135,9 +141,6 @@ public class ServerImplRespaldo implements InterfazDeServer {
             }
 
 
-
-
-
         } catch (JsonMappingException e) {
             e.printStackTrace();
         } catch (JsonProcessingException e) {
@@ -153,11 +156,11 @@ public class ServerImplRespaldo implements InterfazDeServer {
 
     public ArrayList<Licor> buscarLicor(String nombre) {
         ArrayList<Licor> resultadoBD = new ArrayList<>();
-        System.out.println("Intentando adquirir bloqueo para buscar licor (respaldo)...");
+        System.out.println("Intentando adquirir bloqueo para buscar licor...");
         try {
             if (databaseLock.tryLock(10, TimeUnit.SECONDS)) {
                 try {
-                    System.out.println("Adquiriendo bloqueo para buscar licor (respaldo)...");
+                    System.out.println("Adquiriendo bloqueo para buscar licor...");
 
 
                     System.out.println("Analizando resultados...");
@@ -185,30 +188,36 @@ public class ServerImplRespaldo implements InterfazDeServer {
 
                                 resultadoBD.add(newLicor);
                             }
+                            
+                            try {
+                                
+                                Thread.sleep(10000); 
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
 
                         }
 
                     } catch (SQLException e) {
                         e.printStackTrace();
                         System.out.println("No se pudo hacer la conexion a la base de datos");
-
-                    } finally {
-                      
                     }
+                    
+                    
 
 
                 } finally {
-                    System.out.println("Liberando bloqueo después de buscar licor (respaldo)...");
+                    System.out.println("Liberando bloqueo después de buscar licor...");
                     databaseLock.unlock(); // Liberar el bloqueo
                 }
 
             } else {
-                System.out.println("Tiempo de espera excedido al intentar adquirir el bloqueo para buscar licor (respaldo).");
+                System.out.println("Tiempo de espera excedido al intentar adquirir el bloqueo para buscar licor.");
                 return new ArrayList<>(); // Return an empty list
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
-            System.out.println("Interrupción al intentar adquirir el bloqueo para buscar licor (respaldo): " + e.getMessage());
+            System.out.println("Interrupción al intentar adquirir el bloqueo para buscar licor: " + e.getMessage());
             return new ArrayList<>(); // Return an empty list
         }
         return resultadoBD;
@@ -216,16 +225,15 @@ public class ServerImplRespaldo implements InterfazDeServer {
     }
 
     private ArrayList<Licor> mostrarLicores() {
-        System.out.println("Intentando adquirir bloqueo para mostrar licores (respaldo)...");
+        System.out.println("Intentando adquirir bloqueo para mostrar licores...");
         try {
             if (databaseLock.tryLock(10, TimeUnit.SECONDS)) {
                 try {
-                    System.out.println("Adquiriendo bloqueo para mostrar licores (respaldo)...");
+                    System.out.println("Adquiriendo bloqueo para mostrar licores...");
                     ArrayList<Licor> BD_licores_copia = new ArrayList<>();
 
                     Connection connection = null;
                     Statement query = null;
-                    // PreparedStatement test = null , Esto es para evitar SQL injection
                     ResultSet resultados = null;
 
                     try {
@@ -268,12 +276,22 @@ public class ServerImplRespaldo implements InterfazDeServer {
                             e.printStackTrace();
                         }
                     }
-
+                    
+                    try {
+      
+                        Thread.sleep(10000); 
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+  
 
                     return BD_licores_copia;
                 } finally {
+                	
+                	
                     System.out.println("Liberando bloqueo después de mostrar licores...");
-                    databaseLock.unlock(); // Liberar el bloqueo
+                    
+                    databaseLock.unlock();
                 }
             } else {
                 System.out.println("Tiempo de espera excedido al intentar adquirir el bloqueo para mostrar licores.");
@@ -288,7 +306,7 @@ public class ServerImplRespaldo implements InterfazDeServer {
     }
 
     public ArrayList<Licor> getLicor() {
-        return mostrarLicores(); // showLicores ya tiene el bloqueo
+        return mostrarLicores(); 
     }
 
     public void CrearLicor(String nombre, String tipo, int stock, String proveedor, double precio) {
@@ -319,9 +337,17 @@ public class ServerImplRespaldo implements InterfazDeServer {
                         e.printStackTrace();
                         System.out.println("No se pudo insertar el licor en la base de datos.");
                     }
+                    
+                    try {
+                        
+                        Thread.sleep(10000); 
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
 
                 } finally {
+                	
                     System.out.println("Liberando bloqueo después de crear licor...");
                     databaseLock.unlock(); // Liberar el bloqueo
                 }
@@ -386,6 +412,13 @@ public class ServerImplRespaldo implements InterfazDeServer {
 
                                 break;
                         }
+                        
+                        try {
+                            
+                            Thread.sleep(10000); 
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
 
 
                     } catch (SQLException e) {
@@ -427,6 +460,13 @@ public class ServerImplRespaldo implements InterfazDeServer {
                         preparedStatement.executeUpdate();
 
                         System.out.println("Licor eliminado correctamente.");
+                        
+                        try {
+                            
+                            Thread.sleep(10000); 
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
 
                     } catch (SQLException e) {
                         e.printStackTrace();
